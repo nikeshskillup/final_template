@@ -122,10 +122,10 @@ def submit(request, course_id):
         # Get the choice with the choice_id
         c = Choice.objects.get(id=choice)
         # Add the choice to the set of choices in the submission
-        submission.choices_set.add(c)
+        submission.choices.add(c)
 
     # Redirect to show_exam_result with the submission id
-    return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(submission.id)))
+    return HttpResponseRedirect(reverse(viewname='onlinecourse:exam_result', args=(course.id,submission.id,)))
 
     
 
@@ -154,7 +154,7 @@ def show_exam_result(request, course_id, submission_id):
     submission = get_object_or_404(Submission, pk=submission_id)
 
     # Get the selected choice ids from the submission record
-    choices = submission.choices_set.all
+    choices = submission.choices.all()
 
     score = 0
     for choice in choices:
@@ -163,15 +163,14 @@ def show_exam_result(request, course_id, submission_id):
 
     # Calculate the total score
     total_score = 0
-    for question in course.question_set.all:
+    for question in course.question_set.all():
         total_score += question.grade
-
-    score /= total_score
 
     # Add the course, selected_ids and grade to context for rendering HTML page
     context['course'] = course
     context['choices'] = choices
     context['grade'] = score
+    context['total'] = total_score
 
     return render(request, template_name, context)
 

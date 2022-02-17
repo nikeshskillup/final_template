@@ -60,7 +60,7 @@
         </div>
         <div id="exam" class="collapse">
             {% if user.is_authenticated %}
-                <form id="questionform" action="">
+                <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
                     <div class="container">
                         {% for question in course.question_set.all %}
                             <div class="card mt-1">
