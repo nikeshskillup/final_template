@@ -9,6 +9,8 @@ except Exception:
 from django.conf import settings
 import uuid
 
+DEFAULT_EXAM_ID = 1
+
 
 # Instructor model
 class Instructor(models.Model):
@@ -102,8 +104,8 @@ class Enrollment(models.Model):
     # Has question content
     # Other fields and methods you would like to design
 class Question(models.Model):
-    # Foreign key to lesson
-    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    # Foreign key to course
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, default=DEFAULT_EXAM_ID)
     # question text
     question_text = models.CharField(max_length=30)
     # question grade/mark
