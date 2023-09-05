@@ -9,3 +9,5 @@
       - route: host.domain/static
     memory: 128M
     buildpack: staticfile_buildpack
+
+    # new update 
